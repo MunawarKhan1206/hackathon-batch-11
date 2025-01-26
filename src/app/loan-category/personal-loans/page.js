@@ -1,4 +1,3 @@
-// pages/personal-loan.js
 "use client"
 import { useState } from "react";
 import LoanCalculator from "../components/LoanCalculator";

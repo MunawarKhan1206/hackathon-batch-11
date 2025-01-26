@@ -3,14 +3,13 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Home() {
-  // State for form inputs
   const [loanCategory, setLoanCategory] = useState('wedding');
   const [deposit, setDeposit] = useState('');
   const [loanPeriod, setLoanPeriod] = useState('1');
   const [totalAmount, setTotalAmount] = useState(null);
   const [monthlyPayment, setMonthlyPayment] = useState(null);
 
-  // Loan calculation logic
+  // Loan  logic
   const calculateLoan = (e) => {
     e.preventDefault();
     const depositAmount = parseFloat(deposit);
@@ -21,59 +20,48 @@ export default function Home() {
       return;
     }
 
-    // Basic calculation logic (you can modify this according to your own loan formula)
+    // logic laon ke interest ya calculation ke liye
     let interestRate = 0;
     if (loanCategory === 'wedding') interestRate = 0;
     if (loanCategory === 'home') interestRate = 0;
     if (loanCategory === 'business') interestRate = 0;
     if (loanCategory === 'education') interestRate = 0;
     const totalLoanAmount = depositAmount * (1 + interestRate * period);
-    setTotalAmount(totalLoanAmount.toFixed(2)); // Set the total loan amount, formatted to 2 decimal places
+    setTotalAmount(totalLoanAmount.toFixed(2)); // amont ko 2 decimal ke liye 
 
-    // Monthly payment calculation (divide total loan by the total number of months)
+    // Monthly payment calculation 
     const months = period * 12;
     const monthly = totalLoanAmount / months;
-    setMonthlyPayment(monthly.toFixed(2)); // Set the monthly payment, formatted to 2 decimal places
+    // setMonthlyPayment(monthly.toFixed(2));r 2 decimal places
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
       <section className="bg-blue-900 text-white text-center py-20">
         <h1 className="text-4xl font-bold">Saylani Microfinance App</h1>
         <p className="mt-4 text-xl">Empowering communities with easy access to loans for various needs.</p>
       </section>
-      
-      {/* Loan Category Section */}
       <section className="py-12 bg-white">
         <h2 className="text-3xl font-semibold text-center">Choose Your Loan Category</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8 px-4">
-        
-          {/* Loan Category 1 */}
           <Link href="/loan-category/personal-loans">
             <div className="block p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
               <h3 className="text-xl font-semibold text-center">Personal Loans</h3>
               <p className="text-center mt-2">Explore personal loan options.</p>
             </div>
           </Link>
-
-          {/* Loan Category 2 */}
           <Link href="/loan-category/home-loans">
             <div className="block p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
               <h3 className="text-xl font-semibold text-center">Home Loans</h3>
               <p className="text-center mt-2">Find the best home loan deals.</p>
             </div>
           </Link>
-
-          {/* Loan Category 3 */}
           <Link href="/loan-category/car-loans">
             <div className="block p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
               <h3 className="text-xl font-semibold text-center">Car Loans</h3>
               <p className="text-center mt-2">Get financing for your car purchase.</p>
             </div>
           </Link>
-
-          {/* Loan Category 4 */}
           <Link href="/loan-category/student-loans">
             <div className="block p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
               <h3 className="text-xl font-semibold text-center">Student Loans</h3>
@@ -83,8 +71,6 @@ export default function Home() {
 
         </div>
       </section>
-
-      {/* Loan Calculator Section */}
       <section className="py-12 bg-gray-100">
         <h2 className="text-3xl font-semibold text-center">Loan Calculator</h2>
         <div className="max-w-lg mx-auto mt-8 bg-white p-6 rounded-lg shadow-lg">

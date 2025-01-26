@@ -1,101 +1,156 @@
-import Image from "next/image";
+"use client"
+import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  // State for form inputs
+  const [loanCategory, setLoanCategory] = useState('wedding');
+  const [deposit, setDeposit] = useState('');
+  const [loanPeriod, setLoanPeriod] = useState('1');
+  const [totalAmount, setTotalAmount] = useState(null);
+  const [monthlyPayment, setMonthlyPayment] = useState(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Loan calculation logic
+  const calculateLoan = (e) => {
+    e.preventDefault();
+    const depositAmount = parseFloat(deposit);
+    const period = parseInt(loanPeriod);
+
+    if (isNaN(depositAmount) || depositAmount <= 0 || isNaN(period) || period <= 0) {
+      alert('Please provide valid inputs for all fields.');
+      return;
+    }
+
+    // Basic calculation logic (you can modify this according to your own loan formula)
+    let interestRate = 0;
+    if (loanCategory === 'wedding') interestRate = 0;
+    if (loanCategory === 'home') interestRate = 0;
+    if (loanCategory === 'business') interestRate = 0;
+    if (loanCategory === 'education') interestRate = 0;
+    const totalLoanAmount = depositAmount * (1 + interestRate * period);
+    setTotalAmount(totalLoanAmount.toFixed(2)); // Set the total loan amount, formatted to 2 decimal places
+
+    // Monthly payment calculation (divide total loan by the total number of months)
+    const months = period * 12;
+    const monthly = totalLoanAmount / months;
+    setMonthlyPayment(monthly.toFixed(2)); // Set the monthly payment, formatted to 2 decimal places
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-blue-900 text-white text-center py-20">
+        <h1 className="text-4xl font-bold">Saylani Microfinance App</h1>
+        <p className="mt-4 text-xl">Empowering communities with easy access to loans for various needs.</p>
+      </section>
+      
+      {/* Loan Category Section */}
+      <section className="py-12 bg-white">
+        <h2 className="text-3xl font-semibold text-center">Choose Your Loan Category</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8 px-4">
+        
+          {/* Loan Category 1 */}
+          <Link href="/loan-category/personal-loans">
+            <div className="block p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
+              <h3 className="text-xl font-semibold text-center">Personal Loans</h3>
+              <p className="text-center mt-2">Explore personal loan options.</p>
+            </div>
+          </Link>
+
+          {/* Loan Category 2 */}
+          <Link href="/loan-category/home-loans">
+            <div className="block p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
+              <h3 className="text-xl font-semibold text-center">Home Loans</h3>
+              <p className="text-center mt-2">Find the best home loan deals.</p>
+            </div>
+          </Link>
+
+          {/* Loan Category 3 */}
+          <Link href="/loan-category/car-loans">
+            <div className="block p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
+              <h3 className="text-xl font-semibold text-center">Car Loans</h3>
+              <p className="text-center mt-2">Get financing for your car purchase.</p>
+            </div>
+          </Link>
+
+          {/* Loan Category 4 */}
+          <Link href="/loan-category/student-loans">
+            <div className="block p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
+              <h3 className="text-xl font-semibold text-center">Student Loans</h3>
+              <p className="text-center mt-2">Discover options for student financing.</p>
+            </div>
+          </Link>
+
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Loan Calculator Section */}
+      <section className="py-12 bg-gray-100">
+        <h2 className="text-3xl font-semibold text-center">Loan Calculator</h2>
+        <div className="max-w-lg mx-auto mt-8 bg-white p-6 rounded-lg shadow-lg">
+          <form onSubmit={calculateLoan}>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-lg font-medium">Select Loan Category</label>
+                <select
+                  className="mt-2 w-full px-4 py-2 border rounded-md"
+                  value={loanCategory}
+                  onChange={(e) => setLoanCategory(e.target.value)}
+                  required
+                >
+                  <option value="wedding">Wedding Loan</option>
+                  <option value="home">Home Construction Loan</option>
+                  <option value="business">Business Startup Loan</option>
+                  <option value="education">Education Loan</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-lg font-medium">Loan Amount (PKR)</label>
+                <input
+                  type="number"
+                  className="mt-2 w-full px-4 py-2 border rounded-md"
+                  value={deposit}
+                  onChange={(e) => setDeposit(e.target.value)}
+                  placeholder="Enter amount"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-lg font-medium">Loan Period (in years)</label>
+                <select
+                  className="mt-2 w-full px-4 py-2 border rounded-md"
+                  value={loanPeriod}
+                  onChange={(e) => setLoanPeriod(e.target.value)}
+                  required
+                >
+                  <option value="1">1 Year</option>
+                  <option value="2">2 Years</option>
+                  <option value="3">3 Years</option>
+                  <option value="4">4 Years</option>
+                  <option value="5">5 Years</option>
+                </select>
+              </div>
+              <button
+                type="submit"
+                className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+              >
+                Calculate
+              </button>
+            </div>
+          </form>
+
+          {totalAmount && monthlyPayment && (
+            <div className="mt-6 text-center">
+              <p className="text-lg font-semibold text-green-600">
+                Total Loan Amount: <span className="text-xl">{totalAmount} PKR</span>
+              </p>
+              <p className="text-lg font-semibold text-green-600">
+                Monthly Payment: <span className="text-xl">{monthlyPayment} PKR</span>
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

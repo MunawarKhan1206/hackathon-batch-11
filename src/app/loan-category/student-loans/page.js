@@ -1,4 +1,4 @@
-// pages/education-loan.js
+"use client"
 import { useState } from "react";
 import LoanCalculator from "../components/LoanCalculator";
 import TermsAndConditions from "../components/TermsAndConditions";

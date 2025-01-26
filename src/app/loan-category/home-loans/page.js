@@ -1,3 +1,4 @@
+"use client"
 import LoanCalculator from "../components/LoanCalculator.js";
 
 export default function HomeLoan() {
